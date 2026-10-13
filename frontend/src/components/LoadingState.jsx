@@ -1,0 +1,1 @@
+export default function LoadingState({ title = 'Analyzing your resume', message = 'This may take a few moments while Gemini reviews your PDF.' }) { return <div className="loading-panel" role="status" aria-live="polite"><div className="spinner-border text-primary" aria-hidden="true"/><h2>{title}</h2><p>{message}</p></div>; }

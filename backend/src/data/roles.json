@@ -1,0 +1,113 @@
+[
+  {
+    "title": "Frontend Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Accessibility",
+      "Responsive Design",
+      "Git"
+    ],
+    "description": "Build accessible, responsive user interfaces.",
+    "learning": [
+      "Build a responsive multi-page React app",
+      "Practice semantic HTML and accessibility",
+      "Learn browser debugging and frontend testing"
+    ]
+  },
+  {
+    "title": "React Developer",
+    "skills": [
+      "JavaScript",
+      "React",
+      "React Router",
+      "Hooks",
+      "REST APIs",
+      "HTML",
+      "CSS",
+      "Git"
+    ],
+    "description": "Build component-based applications with React.",
+    "learning": [
+      "Practice React hooks and state management",
+      "Build forms with validation",
+      "Integrate a REST API and handle loading/error states"
+    ]
+  },
+  {
+    "title": "Java Developer",
+    "skills": [
+      "Java",
+      "OOP",
+      "Collections",
+      "Exception Handling",
+      "SQL",
+      "Spring Boot",
+      "REST APIs",
+      "Git"
+    ],
+    "description": "Develop Java applications and backend services.",
+    "learning": [
+      "Practice core Java and collections",
+      "Build a Spring Boot REST API",
+      "Learn SQL joins and JPA"
+    ]
+  },
+  {
+    "title": "Full Stack Developer",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express",
+      "REST APIs",
+      "SQL",
+      "Git"
+    ],
+    "description": "Develop frontend experiences and backend APIs.",
+    "learning": [
+      "Connect a frontend to authenticated APIs",
+      "Build CRUD endpoints with validation",
+      "Deploy frontend and backend separately"
+    ]
+  },
+  {
+    "title": "Data Analyst",
+    "skills": [
+      "SQL",
+      "Excel",
+      "Python",
+      "Statistics",
+      "Data Visualization",
+      "Power BI"
+    ],
+    "description": "Explore data, create reports and communicate findings.",
+    "learning": [
+      "Practice SQL aggregation and joins",
+      "Learn descriptive statistics",
+      "Create a dashboard using a public dataset"
+    ]
+  },
+  {
+    "title": "QA Engineer",
+    "skills": [
+      "Testing",
+      "Test Cases",
+      "Bug Reporting",
+      "API Testing",
+      "Postman",
+      "JavaScript",
+      "Automation Testing"
+    ],
+    "description": "Validate software behavior and help prevent defects.",
+    "learning": [
+      "Write test cases from requirements",
+      "Practice API tests with Postman",
+      "Automate a small UI test suite"
+    ]
+  }
+]
