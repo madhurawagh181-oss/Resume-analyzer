@@ -1,4 +1,128 @@
-import { Link } from 'react-router-dom';
-import ScoreCard from '../components/ScoreCard.jsx';
-import CareerCards from '../components/CareerCards.jsx';
-export default function AnalysisResults({ results }) { if(!results) return <section className="page-wrap"><div className="panel empty-state"><i className="bi bi-file-earmark-bar-graph"/><h1>No analysis yet</h1><p>Upload a resume to see results here.</p><Link className="btn btn-primary" to="/upload">Upload resume</Link></div></section>; const a=results.analysis; return <section className="page-wrap"><div className="page-heading"><span className="eyebrow-chip">ANALYSIS COMPLETE</span><h1>Resume analysis</h1><p className="muted">{results.source === 'manual' ? 'These details came from the form you filled in. Career matches use your entered skills.' : 'Review extracted information. Empty fields mean the model did not confidently identify that information.'}</p></div><div className="results-layout"><div className="results-main"><section className="panel"><p className="eyebrow">{results.source === 'manual' ? 'MANUAL CAREER PROFILE' : 'RESUME PROFILE'}</p><h2>{a.name||'Name not identified'}</h2><p>{a.summary||'No professional summary was clearly identified in the resume.'}</p><div className="detail-grid">{[['Education',a.education],['Experience',a.experience],['Projects',a.projects],['Certifications',a.certifications],['Technical skills',a.technicalSkills],['Soft skills',a.softSkills]].map(([title,items])=><div className="detail-section" key={title}><h3>{title}</h3>{items?.length?<ul>{items.map((x,i)=><li key={`${title}-${i}`}>{x}</li>)}</ul>:<p className="muted small">Not identified in resume.</p>}</div>)}</div>{a.notes?.length>0&&<div className="alert alert-light border mb-0"><strong>Review notes</strong><ul className="mb-0 mt-2">{a.notes.map((n,i)=><li key={i}>{n}</li>)}</ul></div>}</section><section className="mt-4"><div className="section-heading compact"><span className="eyebrow">CAREER OPTIONS</span><h2>{results.source === 'manual' ? 'Career matches from your skills' : 'Baseline career matches'}</h2><p className="muted">Sorted by overlap with configured role skills. Scores are not probabilities.</p></div><CareerCards predictions={results.careerPredictions||[]} geminiRecommendations={results.geminiRecommendations||[]}/></section></div><aside className="results-side"><ScoreCard score={results.score}/><div className="panel"><h3><i className="bi bi-shield-check text-primary me-2"/>How to read this</h3><p className="muted small">The completeness score checks visible resume sections. Career matches use a baseline skill overlap rule. Gemini recommendations are shown separately when available.</p><Link className="btn btn-primary w-100" to="/skills">Analyze skill gaps</Link><Link className="btn btn-outline-secondary w-100 mt-2" to="/upload">Analyze another resume</Link></div></aside></div>{results.skillGap&&<section className="panel mt-4"><h2>Skill gap for {results.skillGap.targetRole}</h2><p>Coverage: {results.skillGap.coveragePercent}%</p><Link to="/skills" className="btn btn-outline-primary">View detailed skill gap</Link></section>}</section>; }
+import { Link } from "react-router-dom";
+import ScoreCard from "../components/ScoreCard.jsx";
+import CareerCards from "../components/CareerCards.jsx";
+export default function AnalysisResults({ results }) {
+  if (!results)
+    return (
+      <section className="page-wrap">
+        <div className="panel empty-state">
+          <i className="bi bi-file-earmark-bar-graph" />
+          <h1>No analysis yet</h1>
+          <p>Upload a resume to see results here.</p>
+          <Link className="btn btn-primary" to="/upload">
+            Upload resume
+          </Link>
+        </div>
+      </section>
+    );
+  const a = results.analysis;
+  return (
+    <section className="page-wrap">
+      <div className="page-heading">
+        <span className="eyebrow-chip">ANALYSIS COMPLETE</span>
+        <h1>Resume analysis</h1>
+        <p className="muted">
+          {results.source === "manual"
+            ? "These details came from the form you filled in. Career matches use your entered skills."
+            : "Review extracted information. Empty fields mean the model did not confidently identify that information."}
+        </p>
+      </div>
+      <div className="results-layout">
+        <div className="results-main">
+          <section className="panel">
+            <p className="eyebrow">
+              {results.source === "manual"
+                ? "MANUAL CAREER PROFILE"
+                : "RESUME PROFILE"}
+            </p>
+            <h2>{a.name || "Name not identified"}</h2>
+            <p>
+              {a.summary ||
+                "No professional summary was clearly identified in the resume."}
+            </p>
+            <div className="detail-grid">
+              {[
+                ["Education", a.education],
+                ["Experience", a.experience],
+                ["Projects", a.projects],
+                ["Certifications", a.certifications],
+                ["Technical skills", a.technicalSkills],
+                ["Soft skills", a.softSkills],
+              ].map(([title, items]) => (
+                <div className="detail-section" key={title}>
+                  <h3>{title}</h3>
+                  {items?.length ? (
+                    <ul>
+                      {items.map((x, i) => (
+                        <li key={`${title}-${i}`}>{x}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="muted small">Not identified in resume.</p>
+                  )}
+                </div>
+              ))}
+            </div>
+            {a.notes?.length > 0 && (
+              <div className="alert alert-light border mb-0">
+                <strong>Review notes</strong>
+                <ul className="mb-0 mt-2">
+                  {a.notes.map((n, i) => (
+                    <li key={i}>{n}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+          <section className="mt-4">
+            <div className="section-heading compact">
+              <span className="eyebrow">CAREER OPTIONS</span>
+              <h2>
+                {results.source === "manual"
+                  ? "Career matches from your skills"
+                  : "Baseline career matches"}
+              </h2>
+              <p className="muted">
+                Sorted by overlap with configured role skills. Scores are not
+                probabilities.
+              </p>
+            </div>
+            <CareerCards
+              predictions={results.careerPredictions || []}
+              geminiRecommendations={results.geminiRecommendations || []}
+            />
+          </section>
+        </div>
+        <aside className="results-side">
+          <ScoreCard score={results.score} />
+          <div className="panel">
+            <h3>
+              <i className="bi bi-shield-check text-primary me-2" />
+              How to read this
+            </h3>
+            <p className="muted small">
+              The completeness score checks visible resume sections. Career
+              matches use a baseline skill overlap rule. Gemini recommendations
+              are shown separately when available.
+            </p>
+            <Link className="btn btn-primary w-100" to="/skills">
+              Analyze skill gaps
+            </Link>
+            <Link className="btn btn-outline-secondary w-100 mt-2" to="/upload">
+              Analyze another resume
+            </Link>
+          </div>
+        </aside>
+      </div>
+      {results.skillGap && (
+        <section className="panel mt-4">
+          <h2>Skill gap for {results.skillGap.targetRole}</h2>
+          <p>Coverage: {results.skillGap.coveragePercent}%</p>
+          <Link to="/skills" className="btn btn-outline-primary">
+            View detailed skill gap
+          </Link>
+        </section>
+      )}
+    </section>
+  );
+}

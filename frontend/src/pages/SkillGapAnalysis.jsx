@@ -1,6 +1,150 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { analyzeSkills } from '../services/api.js';
-import { roles } from '../data/roles.js';
-import ErrorMessage from '../components/ErrorMessage.jsx';
-export default function SkillGapAnalysis({ results }) { const [skills,setSkills]=useState((results?.analysis?.technicalSkills||[]).join(', '));const [targetRole,setTargetRole]=useState(roles[0]);const [data,setData]=useState(null);const [error,setError]=useState('');const [loading,setLoading]=useState(false);async function submit(e){e.preventDefault();setLoading(true);setError('');try{setData(await analyzeSkills(skills.split(',').map(s=>s.trim()).filter(Boolean),targetRole));}catch(err){setError(err.message);}finally{setLoading(false);}}return <section className="page-wrap"><div className="page-heading"><span className="eyebrow-chip">LEARNING ROADMAP</span><h1>Skill gap analysis</h1><p className="muted">Compare your skills against a selected role and receive learning suggestions.</p></div><form className="panel skill-form" onSubmit={submit}><label className="form-label" htmlFor="skills">Your current skills</label><textarea id="skills" className="form-control" rows="3" value={skills} onChange={e=>setSkills(e.target.value)} placeholder="Java, SQL, React"/><label className="form-label mt-3" htmlFor="role">Target job role</label><select id="role" className="form-select" value={targetRole} onChange={e=>setTargetRole(e.target.value)}>{roles.map(role=><option key={role}>{role}</option>)}</select><button className="btn btn-primary mt-3" disabled={loading}>{loading?'Analyzing…':'Analyze skill gap'}</button><ErrorMessage message={error}/></form>{data&&<div className="skill-results mt-4"><div className="panel"><div className="d-flex justify-content-between align-items-center"><div><p className="eyebrow">TARGET ROLE</p><h2>{data.targetRole}</h2></div><div className="score-ring">{data.coveragePercent}%</div></div><p className="muted">Coverage of the configured skill list, not a hiring score.</p><div className="progress mb-4"><div className="progress-bar" style={{width:`${data.coveragePercent}%`}}/></div><div className="detail-grid"><div className="detail-section"><h3><i className="bi bi-check-circle text-success me-2"/>Matched skills ({data.matchedSkills.length})</h3>{data.matchedSkills.length?<div className="skill-chips">{data.matchedSkills.map(s=><span className="skill-chip matched" key={s}>{s}</span>)}</div>:<p className="muted">No matches yet. Add the skills you currently have.</p>}</div><div className="detail-section"><h3><i className="bi bi-bullseye text-primary me-2"/>Skills to develop ({data.missingSkills.length})</h3>{data.missingSkills.map(item=><div className="missing-skill" key={item.skill}><div className="d-flex justify-content-between gap-2"><strong>{item.skill}</strong><span className={`priority priority-${item.priority}`}>{item.priority}</span></div><p className="muted small mb-0">{item.suggestion}</p></div>)}</div></div></div><div className="panel mt-3"><h2>Suggested learning steps</h2><ol className="learning-list">{data.learningSuggestions.map((s,i)=><li key={i}>{s}</li>)}</ol></div></div>}{!results&&<p className="muted small mt-3">You can use this page without uploading a resume by entering your skills manually. <Link to="/upload">Upload a resume</Link></p>}</section>; }
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { analyzeSkills } from "../services/api.js";
+import { roles } from "../data/roles.js";
+import ErrorMessage from "../components/ErrorMessage.jsx";
+export default function SkillGapAnalysis({ results }) {
+  const [skills, setSkills] = useState(
+    (results?.analysis?.technicalSkills || []).join(", "),
+  );
+  const [targetRole, setTargetRole] = useState(roles[0]);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  async function submit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      setData(
+        await analyzeSkills(
+          skills
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
+          targetRole,
+        ),
+      );
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  return (
+    <section className="page-wrap">
+      <div className="page-heading">
+        <span className="eyebrow-chip">LEARNING ROADMAP</span>
+        <h1>Skill gap analysis</h1>
+        <p className="muted">
+          Compare your skills against a selected role and receive learning
+          suggestions.
+        </p>
+      </div>
+      <form className="panel skill-form" onSubmit={submit}>
+        <label className="form-label" htmlFor="skills">
+          Your current skills
+        </label>
+        <textarea
+          id="skills"
+          className="form-control"
+          rows="3"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+          placeholder="Java, SQL, React"
+        />
+        <label className="form-label mt-3" htmlFor="role">
+          Target job role
+        </label>
+        <select
+          id="role"
+          className="form-select"
+          value={targetRole}
+          onChange={(e) => setTargetRole(e.target.value)}
+        >
+          {roles.map((role) => (
+            <option key={role}>{role}</option>
+          ))}
+        </select>
+        <button className="btn btn-primary mt-3" disabled={loading}>
+          {loading ? "Analyzing…" : "Analyze skill gap"}
+        </button>
+        <ErrorMessage message={error} />
+      </form>
+      {data && (
+        <div className="skill-results mt-4">
+          <div className="panel">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <p className="eyebrow">TARGET ROLE</p>
+                <h2>{data.targetRole}</h2>
+              </div>
+              <div className="score-ring">{data.coveragePercent}%</div>
+            </div>
+            <p className="muted">
+              Coverage of the configured skill list, not a hiring score.
+            </p>
+            <div className="progress mb-4">
+              <div
+                className="progress-bar"
+                style={{ width: `${data.coveragePercent}%` }}
+              />
+            </div>
+            <div className="detail-grid">
+              <div className="detail-section">
+                <h3>
+                  <i className="bi bi-check-circle text-success me-2" />
+                  Matched skills ({data.matchedSkills.length})
+                </h3>
+                {data.matchedSkills.length ? (
+                  <div className="skill-chips">
+                    {data.matchedSkills.map((s) => (
+                      <span className="skill-chip matched" key={s}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="muted">
+                    No matches yet. Add the skills you currently have.
+                  </p>
+                )}
+              </div>
+              <div className="detail-section">
+                <h3>
+                  <i className="bi bi-bullseye text-primary me-2" />
+                  Skills to develop ({data.missingSkills.length})
+                </h3>
+                {data.missingSkills.map((item) => (
+                  <div className="missing-skill" key={item.skill}>
+                    <div className="d-flex justify-content-between gap-2">
+                      <strong>{item.skill}</strong>
+                      <span className={`priority priority-${item.priority}`}>
+                        {item.priority}
+                      </span>
+                    </div>
+                    <p className="muted small mb-0">{item.suggestion}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="panel mt-3">
+            <h2>Suggested learning steps</h2>
+            <ol className="learning-list">
+              {data.learningSuggestions.map((s, i) => (
+                <li key={i}>{s}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
+      {!results && (
+        <p className="muted small mt-3">
+          You can use this page without uploading a resume by entering your
+          skills manually. <Link to="/upload">Upload a resume</Link>
+        </p>
+      )}
+    </section>
+  );
+}

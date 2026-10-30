@@ -1,7 +1,83 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { predictCareers } from '../services/api.js';
-import CareerCards from '../components/CareerCards.jsx';
-import LoadingState from '../components/LoadingState.jsx';
-import ErrorMessage from '../components/ErrorMessage.jsx';
-export default function CareerRecommendations({ results }) { const [skills,setSkills]=useState((results?.analysis?.technicalSkills||[]).join(', '));const [predictions,setPredictions]=useState(results?.careerPredictions||[]);const [error,setError]=useState('');const [loading,setLoading]=useState(false);async function run(e){e.preventDefault();setLoading(true);setError('');try{const data=await predictCareers(skills.split(',').map(s=>s.trim()).filter(Boolean));setPredictions(data.predictions);}catch(err){setError(err.message);}finally{setLoading(false);}}return <section className="page-wrap"><div className="page-heading"><span className="eyebrow-chip">CAREER EXPLORER</span><h1>Career recommendations</h1><p className="muted">Edit your skills to explore how they overlap with each configured role.</p></div><form className="panel mb-4" onSubmit={run}><label className="form-label" htmlFor="careerSkills">Your skills (comma separated)</label><textarea id="careerSkills" className="form-control" rows="3" value={skills} onChange={e=>setSkills(e.target.value)} placeholder="Java, React, SQL, REST APIs"/><button className="btn btn-primary mt-3" disabled={loading}>{loading?'Calculating…':'Update recommendations'}</button><ErrorMessage message={error}/></form>{loading?<LoadingState title="Comparing skills" message="Applying the configured role-skill map."/>:<CareerCards predictions={predictions} geminiRecommendations={results?.geminiRecommendations||[]}/>}<p className="small muted mt-4">This baseline is not a trained ML model and does not estimate your chance of being hired.</p>{!results&&<Link to="/upload" className="btn btn-outline-primary mt-2">Analyze a resume first</Link>}</section>; }
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { predictCareers } from "../services/api.js";
+import CareerCards from "../components/CareerCards.jsx";
+import LoadingState from "../components/LoadingState.jsx";
+import ErrorMessage from "../components/ErrorMessage.jsx";
+export default function CareerRecommendations({ results }) {
+  const [skills, setSkills] = useState(
+    (results?.analysis?.technicalSkills || []).join(", "),
+  );
+  const [predictions, setPredictions] = useState(
+    results?.careerPredictions || [],
+  );
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  async function run(e) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const data = await predictCareers(
+        skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      );
+      setPredictions(data.predictions);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  return (
+    <section className="page-wrap">
+      <div className="page-heading">
+        <span className="eyebrow-chip">CAREER EXPLORER</span>
+        <h1>Career recommendations</h1>
+        <p className="muted">
+          Edit your skills to explore how they overlap with each configured
+          role.
+        </p>
+      </div>
+      <form className="panel mb-4" onSubmit={run}>
+        <label className="form-label" htmlFor="careerSkills">
+          Your skills (comma separated)
+        </label>
+        <textarea
+          id="careerSkills"
+          className="form-control"
+          rows="3"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+          placeholder="Java, React, SQL, REST APIs"
+        />
+        <button className="btn btn-primary mt-3" disabled={loading}>
+          {loading ? "Calculating…" : "Update recommendations"}
+        </button>
+        <ErrorMessage message={error} />
+      </form>
+      {loading ? (
+        <LoadingState
+          title="Comparing skills"
+          message="Applying the configured role-skill map."
+        />
+      ) : (
+        <CareerCards
+          predictions={predictions}
+          geminiRecommendations={results?.geminiRecommendations || []}
+        />
+      )}
+      <p className="small muted mt-4">
+        This baseline is not a trained ML model and does not estimate your
+        chance of being hired.
+      </p>
+      {!results && (
+        <Link to="/upload" className="btn btn-outline-primary mt-2">
+          Analyze a resume first
+        </Link>
+      )}
+    </section>
+  );
+}

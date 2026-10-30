@@ -1,2 +1,35 @@
-import { NavLink } from 'react-router-dom';
-export default function Header() { return <header className="topbar"><nav className="nav-inner"><NavLink to="/" className="brand"><span className="brand-icon"><i className="bi bi-file-earmark-person" /></span><span>Smart Resume Analyzer</span></NavLink><div className="nav-links"><NavLink to="/" end>Home</NavLink><NavLink to="/upload">Upload Resume</NavLink><a href="/" onClick={e => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({behavior:'smooth'}); }}>How It Works</a></div><NavLink to="/upload" className="btn btn-primary nav-cta">Get Started</NavLink></nav></header>; }
+import { NavLink } from "react-router-dom";
+export default function Header() {
+  return (
+    <header className="topbar">
+      <nav className="nav-inner">
+        <NavLink to="/" className="brand">
+          <span className="brand-icon">
+            <i className="bi bi-file-earmark-person" />
+          </span>
+          <span>Smart Resume Analyzer</span>
+        </NavLink>
+        <div className="nav-links">
+          <NavLink to="/" end>
+            Home
+          </NavLink>
+          <NavLink to="/upload">Upload Resume</NavLink>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById("how-it-works")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            How It Works
+          </a>
+        </div>
+        <NavLink to="/upload" className="btn btn-primary nav-cta">
+          Get Started
+        </NavLink>
+      </nav>
+    </header>
+  );
+}

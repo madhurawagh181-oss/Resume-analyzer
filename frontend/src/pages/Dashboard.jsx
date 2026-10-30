@@ -1,2 +1,112 @@
-import { Link } from 'react-router-dom';
-export default function Dashboard() { return <><section className="hero"><div className="hero-copy"><span className="eyebrow-chip"><i className="bi bi-stars me-1"/> AI-POWERED CAREER INSIGHTS</span><h1>Discover your best-fit career.</h1><p>Understand the skills in your resume, explore suitable roles, and plan your next learning steps with clear, explainable insights.</p><div className="d-flex flex-wrap gap-3"><Link className="btn btn-primary btn-lg" to="/upload"><i className="bi bi-cloud-arrow-up me-2"/>Upload Resume</Link><a className="btn btn-light btn-lg border" href="#how-it-works">How it works</a></div><small className="muted d-block mt-3">Your resume is processed for this request and is not saved by this app.</small></div><div className="hero-preview panel"><div className="preview-heading"><span className="preview-icon"><i className="bi bi-file-earmark-check"/></span><div><strong>Career insights</strong><small className="muted d-block">Example dashboard preview</small></div></div>{[['Java Developer',87],['React Developer',74],['Data Analyst',68]].map(([name,n])=><div className="preview-bar" key={name}><div className="d-flex justify-content-between"><span>{name}</span><span>{n}%</span></div><div className="progress"><div className="progress-bar" style={{width:`${n}%`}}/></div></div>)}<small className="muted">Illustrative values only—not your analysis.</small></div></section><section id="how-it-works" className="section-block"><div className="section-heading"><span className="eyebrow">A SIMPLE WORKFLOW</span><h2>From resume to a learning plan</h2><p className="muted">Three clear steps. You stay in control of your career choices.</p></div><div className="feature-grid">{[{n:'01',icon:'bi-file-earmark-pdf',title:'Upload your resume',text:'Submit a PDF and let Gemini extract information actually present in the document.'},{n:'02',icon:'bi-graph-up-arrow',title:'Review your insights',text:'See a transparent completeness score and role recommendations with supporting evidence.'},{n:'03',icon:'bi-signpost-split',title:'Close skill gaps',text:'Choose a target role to compare your current skills with a configurable role skill map.'}].map(x=><article className="panel feature-card" key={x.n}><span className="feature-number">{x.n}</span><i className={`bi ${x.icon} feature-icon`}/><h3>{x.title}</h3><p className="muted mb-0">{x.text}</p></article>)}</div></section><section className="privacy-banner"><i className="bi bi-shield-check"/><div><strong>Privacy by default</strong><p className="mb-0">No database persistence, no permanent resume uploads, and no API keys in the browser.</p></div><Link to="/upload" className="btn btn-primary ms-md-auto">Get started</Link></section></>; }
+import { Link } from "react-router-dom";
+export default function Dashboard() {
+  return (
+    <>
+      <section className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow-chip">
+            <i className="bi bi-stars me-1" /> AI-POWERED CAREER INSIGHTS
+          </span>
+          <h1>Discover your best-fit career.</h1>
+          <p>
+            Understand the skills in your resume, explore suitable roles, and
+            plan your next learning steps with clear, explainable insights.
+          </p>
+          <div className="d-flex flex-wrap gap-3">
+            <Link className="btn btn-primary btn-lg" to="/upload">
+              <i className="bi bi-cloud-arrow-up me-2" />
+              Upload Resume
+            </Link>
+            <a className="btn btn-light btn-lg border" href="#how-it-works">
+              How it works
+            </a>
+          </div>
+          <small className="muted d-block mt-3">
+            Your resume is processed for this request and is not saved by this
+            app.
+          </small>
+        </div>
+        <div className="hero-preview panel">
+          <div className="preview-heading">
+            <span className="preview-icon">
+              <i className="bi bi-file-earmark-check" />
+            </span>
+            <div>
+              <strong>Career insights</strong>
+              <small className="muted d-block">Example dashboard preview</small>
+            </div>
+          </div>
+          {[
+            ["Java Developer", 87],
+            ["React Developer", 74],
+            ["Data Analyst", 68],
+          ].map(([name, n]) => (
+            <div className="preview-bar" key={name}>
+              <div className="d-flex justify-content-between">
+                <span>{name}</span>
+                <span>{n}%</span>
+              </div>
+              <div className="progress">
+                <div className="progress-bar" style={{ width: `${n}%` }} />
+              </div>
+            </div>
+          ))}
+          <small className="muted">
+            Illustrative values only—not your analysis.
+          </small>
+        </div>
+      </section>
+      <section id="how-it-works" className="section-block">
+        <div className="section-heading">
+          <span className="eyebrow">A SIMPLE WORKFLOW</span>
+          <h2>From resume to a learning plan</h2>
+          <p className="muted">
+            Three clear steps. You stay in control of your career choices.
+          </p>
+        </div>
+        <div className="feature-grid">
+          {[
+            {
+              n: "01",
+              icon: "bi-file-earmark-pdf",
+              title: "Upload your resume",
+              text: "Submit a PDF and let Gemini extract information actually present in the document.",
+            },
+            {
+              n: "02",
+              icon: "bi-graph-up-arrow",
+              title: "Review your insights",
+              text: "See a transparent completeness score and role recommendations with supporting evidence.",
+            },
+            {
+              n: "03",
+              icon: "bi-signpost-split",
+              title: "Close skill gaps",
+              text: "Choose a target role to compare your current skills with a configurable role skill map.",
+            },
+          ].map((x) => (
+            <article className="panel feature-card" key={x.n}>
+              <span className="feature-number">{x.n}</span>
+              <i className={`bi ${x.icon} feature-icon`} />
+              <h3>{x.title}</h3>
+              <p className="muted mb-0">{x.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="privacy-banner">
+        <i className="bi bi-shield-check" />
+        <div>
+          <strong>Privacy by default</strong>
+          <p className="mb-0">
+            No database persistence, no permanent resume uploads, and no API
+            keys in the browser.
+          </p>
+        </div>
+        <Link to="/upload" className="btn btn-primary ms-md-auto">
+          Get started
+        </Link>
+      </section>
+    </>
+  );
+}
